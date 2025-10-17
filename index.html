@@ -15,7 +15,42 @@
         <button id="botao-palavrachave">Extrair</button>
         <div id="resultado-palavrachave"></div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        document.getElementById('botao-palavrachave').addEventListener('click', function() {
+            // Pega o texto da área de entrada
+            let texto = document.getElementById('entrada-de-texto').value;
+
+            // Converte o texto em minúsculas e remove pontuação
+            texto = texto.toLowerCase().replace(/[^\w\s]/g, '');
+
+            // Divide o texto em palavras
+            let palavras = texto.split(/\s+/);
+
+            // Conta a frequência de cada palavra
+            let contagem = {};
+            palavras.forEach(palavra => {
+                if (palavra) { // Ignora palavras vazias
+                    contagem[palavra] = (contagem[palavra] || 0) + 1;
+                }
+            });
+
+            // Ordena as palavras por frequência
+            let palavrasOrdenadas = Object.entries(contagem).sort((a, b) => b[1] - a[1]);
+
+            // Exibe as palavras-chave mais frequentes
+            let resultadoDiv = document.getElementById('resultado-palavrachave');
+            resultadoDiv.innerHTML = '<h2>Palavras-chave extraídas:</h2>';
+            let ul = document.createElement('ul');
+            palavrasOrdenadas.forEach(([palavra, freq]) => {
+                let li = document.createElement('li');
+                li.textContent = `${palavra} - ${freq}`;
+                ul.appendChild(li);
+            });
+            resultadoDiv.appendChild(ul);
+        });
+    </script>
+
 </body>
 
 </html>
